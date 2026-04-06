@@ -1,4 +1,5 @@
 import { Redis } from '@upstash/redis'
+export const dynamic = 'force-dynamic'
 
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL,
