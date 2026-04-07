@@ -30,15 +30,21 @@ function dayKey(y, m, d) {
   return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
 }
 
-export default function Home() {
-  const now = new Date()
+export default function Home() {  
   const [year, setYear] = useState(now.getFullYear())
   const [month, setMonth] = useState(now.getMonth())
   const [schedules, setSchedules] = useState({})
   const [syncStatus, setSyncStatus] = useState('loading')
   const [modal, setModal] = useState(null)
   const [editState, setEditState] = useState({})
+  const [today, setToday] = useState(new Date())
   const saveTimer = useRef(null)
+  useEffect(() => {
+  const now = new Date()
+  const msUntilMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1) - now
+  const timer = setTimeout(() => setToday(new Date()), msUntilMidnight)
+  return () => clearTimeout(timer)
+}, [today])
 
   const fetchData = useCallback(async () => {
     setSyncStatus('loading')
