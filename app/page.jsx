@@ -65,17 +65,19 @@ export default function Home() {
   }, [fetchData])
 
   function debounceSave(newSchedules) {
-    if (saveTimer.current) clearTimeout(saveTimer.current)
-    setSyncStatus('saving')
-    saveTimer.current = setTimeout(async () => {
-      try {
-        await redisSet(newSchedules)
-        setSyncStatus('ok')
-      } catch {
-        setSyncStatus('error')
-      }
-    }, 600)
-  }
+  if (saveTimer.current) clearTimeout(saveTimer.current)
+  setSyncStatus('saving')
+  saveTimer.current = setTimeout(async () => {
+    try {
+      await redisSet(newSchedules)
+      setSyncStatus('ok')
+    } catch {
+      setSyncStatus('error')
+    } finally {
+      saveTimer.current = null  // ← 이 줄 추가
+    }
+  }, 600)
+}
 
   function changeMonth(delta) {
     let m = month + delta
