@@ -31,6 +31,7 @@ function dayKey(y, m, d) {
 }
 
 export default function Home() {  
+  const now = new Date()
   const [year, setYear] = useState(now.getFullYear())
   const [month, setMonth] = useState(now.getMonth())
   const [schedules, setSchedules] = useState({})
@@ -104,8 +105,7 @@ export default function Home() {
   }
 
   const firstDay = new Date(year, month, 1).getDay()
-  const daysInMonth = new Date(year, month + 1, 0).getDate()
-  const today = new Date()
+  const daysInMonth = new Date(year, month + 1, 0).getDate()  
 
   const syncLabel = { loading: '불러오는 중...', ok: '팀 전체 공유 중 · 30초마다 자동 새로고침', saving: '저장 중...', error: '저장 실패' }[syncStatus]
   const syncColor = { loading: '#EF9F27', ok: '#639922', saving: '#EF9F27', error: '#E24B4A' }[syncStatus]
